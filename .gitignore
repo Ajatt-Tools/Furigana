@@ -1,2 +1,5 @@
+.idea
 __pycache__
-support
+/manifest.json
+/meta.json
+/*.ankiaddon
