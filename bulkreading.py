@@ -1,69 +1,72 @@
 # -*- coding: utf-8 -*-
-# Copyright: Ankitects Pty Ltd and contributors
-# License: GNU GPL, version 3 or later; http://www.gnu.org/copyleft/gpl.html
-#
-# Bulk update of readings.
-#
 
-from aqt.qt import *
-from anki.hooks import addHook
-from .reading import mecab, srcFields, dstFields
-from .notetypes import isJapaneseNoteType
+# Japanese support add-on for Anki 2.1
+# Copyright (C) 2021  Ren Tatsumoto. <tatsu at autistici.org>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# Any modifications to this file must keep this entire header intact.
+
+from typing import Sequence
+
 from aqt import mw
+from aqt.browser import Browser
+from aqt.qt import *
+
+from .misc import *
+from .notetypes import is_supported_notetype
+from .reading import mecab
+
+ACTION_NAME = "Bulk-add furigana"
+
 
 # Bulk updates
 ##########################################################################
 
-def regenerateReadings(nids):
-    global mecab
-    mw.checkpoint("Bulk-add Readings")
+def regenerate_readings(nids: Sequence):
+    mw.checkpoint(ACTION_NAME)
     mw.progress.start()
+
     for nid in nids:
         note = mw.col.getNote(nid)
-        # Amend notetypes.py to add your note types
-        _noteName = note.model()['name'].lower()
-        if not isJapaneseNoteType(_noteName):
+        if not is_supported_notetype(note):
             continue
 
-        src = None
-        for field in srcFields:
-            if field in note:
-                src = field
-                break
-        if not src:
-            # no src field
-            continue
-        # dst is the destination field for the Readings
-        dst = None
-        for field in dstFields:
-            if field in note:
-                dst = field
-                break
-        if not dst:
-            # no dst field
-            continue
-        if note[dst]:
-            # already contains data, skip
-            continue
-        srcTxt = mw.col.media.strip(note[src])
-        if not srcTxt.strip():
-            continue
-        try:
-            note[dst] = mecab.reading(srcTxt)
-        except Exception as e:
-            mecab = None
-            raise
+        for src_field_name, dst_field_name in zip(config['srcFields'], config['dstFields']):
+            try:
+                if (src_text := mw.col.media.strip(note[src_field_name]).strip()) and not note[dst_field_name]:
+                    note[dst_field_name] = mecab.reading(src_text)
+            except KeyError:
+                continue
+
         note.flush()
+
     mw.progress.finish()
     mw.reset()
 
-def setupMenu(browser):
-    a = QAction("Bulk-add Readings", browser)
-    a.triggered.connect(lambda: onRegenerate(browser))
-    browser.form.menuEdit.addSeparator()
-    browser.form.menuEdit.addAction(a)
 
-def onRegenerate(browser):
-    regenerateReadings(browser.selectedNotes())
+def setup_menu(browser: Browser):
+    action = QAction(ACTION_NAME, browser)
+    qconnect(action.triggered, lambda: regenerate_readings(browser.selectedNotes()))
+    browser.form.menuEdit.addAction(action)
 
-addHook("browser.setupMenus", setupMenu)
+
+def init():
+    if ANKI21_VERSION < 45:
+        from anki.hooks import addHook
+        addHook("browser.setupMenus", setup_menu)
+    else:
+        from aqt import gui_hooks
+
+        gui_hooks.browser_menus_did_init.append(setup_menu)

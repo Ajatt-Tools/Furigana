@@ -1,1 +1,0 @@
-{"disabled": false, "mod": 1563111497, "config": {"dstFields": ["SentFurigana", "VocabFurigana"], "furiganaSuffix": " (furigana)", "noteTypes": ["japanese", "subs2srs"], "srcFields": ["SentKanji", "VocabKanji"], "skipNumbers": false}, "name": "Japanese Support", "conflicts": [], "max_point_version": 18, "min_point_version": 0, "branch_index": 0}

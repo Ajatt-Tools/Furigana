@@ -1,7 +1,21 @@
 {
-    "noteTypes": ["japanese"],
-    "srcFields": ["Expression", "Kanji"],
-    "dstFields": ["Reading", "Reading"],
-    "furiganaSuffix": " (furigana)",
-    "skipNumbers": false
+  "noteTypes": [
+    "japanese",
+    "subs2srs"
+  ],
+  "srcFields": [
+    "SentKanji",
+    "VocabKanji"
+  ],
+  "dstFields": [
+    "SentFurigana",
+    "VocabFurigana"
+  ],
+  "furiganaSuffix": " (furigana)",
+  "skipNumbers": false,
+  "generate_on_flush": true,
+  "skip_expressions": [
+    "一人",
+    "二人"
+  ]
 }
