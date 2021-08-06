@@ -18,6 +18,9 @@
 #
 # Any modifications to this file must keep this entire header intact.
 
+import re
+from typing import List
+
 from anki import hooks
 from anki.notes import Note
 from aqt import mw
@@ -60,7 +63,7 @@ def on_focus_lost(changed: bool, note: Note, field_idx: int) -> bool:
 
     # grab source text
     if src_text := mw.col.media.strip(note[src_field_name]).strip():
-        note[dest_field_name] = mecab.reading(src_text)
+        note[dest_field_name] = reading(src_text)
         return True
 
     return changed
@@ -85,18 +88,33 @@ def on_note_will_flush(note: Note) -> Note:
     for src_field_name, dst_field_name in iter_fields():
         try:
             if (src_text := mw.col.media.strip(note[src_field_name]).strip()) and not note[dst_field_name]:
-                note[dst_field_name] = mecab.reading(src_text)
+                note[dst_field_name] = reading(src_text)
         except KeyError:
             continue
 
     return note
 
 
-# Init
+# Reading
 ##########################################################################
 
-mecab = MecabController(config=config)
+mecab = MecabController()
 
+
+def get_skip_words() -> List[str]:
+    return re.split(r'[, ]+', config.get('skip_words', ''), flags=re.IGNORECASE)
+
+
+def get_skip_numbers() -> List[str]:
+    return list(NUMBERS) if config.get('skip_numbers') is True else []
+
+
+def reading(expr: str) -> str:
+    return mecab.reading(expr, get_skip_words() + get_skip_numbers())
+
+
+# Init
+##########################################################################
 
 def init():
     if ANKI21_VERSION < 45:

@@ -26,7 +26,7 @@ from aqt.qt import *
 
 from .misc import *
 from .notetypes import is_supported_notetype
-from .reading import mecab
+from .reading import reading
 
 ACTION_NAME = "Bulk-add furigana"
 
@@ -46,7 +46,7 @@ def regenerate_readings(nids: Sequence):
         for src_field_name, dst_field_name in iter_fields():
             try:
                 if (src_text := mw.col.media.strip(note[src_field_name]).strip()) and not note[dst_field_name]:
-                    note[dst_field_name] = mecab.reading(src_text)
+                    note[dst_field_name] = reading(src_text)
             except KeyError:
                 continue
 
