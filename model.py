@@ -52,7 +52,7 @@ def add_tsc_model(col: Collection):
     # css
 
     with open(os.path.join(TEMPL_DIR, 'japanese_sentences.css')) as f:
-        note_type['css'] += f.read()
+        note_type['css'] = f.read()
 
     # recognition card
 
