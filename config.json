@@ -1,6 +1,7 @@
 {
   "noteTypes": [
     "japanese",
+    "ajt",
     "subs2srs"
   ],
   "srcFields": [
