@@ -1,68 +1,80 @@
 # -*- coding: utf-8 -*-
-# Copyright: Ankitects Pty Ltd and contributors
-# License: GNU GPL, version 3 or later; http://www.gnu.org/copyleft/gpl.html
+
+# Japanese support add-on for Anki 2.1
+# Copyright (C) 2021  Ren Tatsumoto. <tatsu at autistici.org>
 #
-# Standard Japanese model.
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# Any modifications to this file must keep this entire header intact.
+
+import os.path
 
 import anki.stdmodels
+from anki.collection import Collection
+
+NOTE_TYPE_NAME = "Japanese sentences"
+FIELDS = [
+    'SentKanji',
+    'SentFurigana',
+    'SentEng',
+    'SentAudio',
+    'MorphManFocus',
+    'VocabKanji',
+    'VocabFurigana',
+    'VocabPitchPattern',
+    'VocabPitchNum',
+    'VocabDef',
+    'VocabAudio',
+    'Image',
+    'Notes',
+    'MakeProductionCard'
+]
+TEMPL_DIR = os.path.join(os.path.dirname(__file__), "note_type")
 
 
-def addJapaneseModel(col):
-    mm = col.models
-    m = mm.new(("Japanese (recognition)"))
-    fm = mm.newField(("Expression"))
-    mm.addField(m, fm)
-    fm = mm.newField(("Meaning"))
-    mm.addField(m, fm)
-    fm = mm.newField(("Reading"))
-    mm.addField(m, fm)
-    t = mm.newTemplate(("Recognition"))
+def add_tsc_model(col: Collection):
+    """Add TSCs note type to the add/clone note type screen"""
+    note_type = col.models.new(NOTE_TYPE_NAME)
+    for field in FIELDS:
+        col.models.add_field(note_type, col.models.new_field(field))
+
     # css
-    m['css'] += u"""\
-.jp { font-size: 30px }
-.win .jp { font-family: "MS Mincho", "ＭＳ 明朝"; }
-.mac .jp { font-family: "Hiragino Mincho Pro", "ヒラギノ明朝 Pro"; }
-.linux .jp { font-family: "Kochi Mincho", "東風明朝"; }
-.mobile .jp { font-family: "Hiragino Mincho ProN"; }"""
+
+    with open(os.path.join(TEMPL_DIR, 'japanese_sentences.css')) as f:
+        note_type['css'] += f.read()
+
     # recognition card
-    t['qfmt'] = "<div class=jp> {{Expression}} </div>"
-    t['afmt'] = """{{FrontSide}}\n\n<hr id=answer>\n\n\
-<div class=jp> {{furigana:Reading}} </div><br>\n\
-{{Meaning}}"""
-    mm.addTemplate(m, t)
-    mm.add(m)
-    return m
 
+    rec_tmpl = col.models.new_template("Recognition")
+    with open(os.path.join(TEMPL_DIR, 'recognition_front.html')) as f:
+        rec_tmpl['qfmt'] += f.read()
+    with open(os.path.join(TEMPL_DIR, 'recognition_back.html')) as f:
+        rec_tmpl['afmt'] += f.read()
+    col.models.addTemplate(note_type, rec_tmpl)
 
-def addDoubleJapaneseModel(col):
-    mm = col.models
-    m = addJapaneseModel(col)
-    m['name'] = "Japanese (recognition&recall)"
-    rev = mm.newTemplate(("Recall"))
-    rev['qfmt'] = "{{Meaning}}"
-    rev['afmt'] = """{{FrontSide}}
+    # production card
 
-<hr id=answer>
+    prod_tmpl = col.models.new_template("Production")
+    with open(os.path.join(TEMPL_DIR, 'production_front.html')) as f:
+        prod_tmpl['qfmt'] += f.read()
+    with open(os.path.join(TEMPL_DIR, 'production_back.html')) as f:
+        prod_tmpl['afmt'] += f.read()
+    col.models.addTemplate(note_type, prod_tmpl)
 
-<div class=jp> {{Expression}} </div>
-<div class=jp> {{furigana:Reading}} </div>"""
-    mm.addTemplate(m, rev)
-    return m
-
-
-def addOptionalJapaneseModel(col):
-    mm = col.models
-    m = addDoubleJapaneseModel(col)
-    m['name'] = "Japanese (optional recall)"
-    rev = m['tmpls'][1]
-    rev['qfmt'] = "{{#Add Recall}}\n" + rev['qfmt'] + "\n{{/Add Recall}}"
-    fm = mm.newField("Add Recall")
-    mm.addField(m, fm)
-    return m
+    col.models.add(note_type)
+    return note_type
 
 
 def init():
-    anki.stdmodels.models.append((("Japanese (recognition)"), addJapaneseModel))
-    anki.stdmodels.models.append((("Japanese (recognition&recall)"), addDoubleJapaneseModel))
-    anki.stdmodels.models.append((("Japanese (optional recall)"), addOptionalJapaneseModel))
+    anki.stdmodels.models.append((NOTE_TYPE_NAME, add_tsc_model))
