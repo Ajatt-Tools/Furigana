@@ -31,11 +31,11 @@ from .notetypes import is_supported_notetype
 ##########################################################################
 
 def find_dest_field_name(src_field_name: str) -> str:
-    for src, dest in zip(config['srcFields'], config['dstFields']):
+    for src, dest in iter_fields():
         if src_field_name == src:
             return dest
     else:
-        return src_field_name + config['furiganaSuffix']
+        return src_field_name + config['furigana_suffix']
 
 
 def on_focus_lost(changed: bool, note: Note, field_idx: int) -> bool:
@@ -82,7 +82,7 @@ def on_note_will_flush(note: Note) -> Note:
     if not is_supported_notetype(note):
         return note
 
-    for src_field_name, dst_field_name in zip(config['srcFields'], config['dstFields']):
+    for src_field_name, dst_field_name in iter_fields():
         try:
             if (src_text := mw.col.media.strip(note[src_field_name]).strip()) and not note[dst_field_name]:
                 note[dst_field_name] = mecab.reading(src_text)

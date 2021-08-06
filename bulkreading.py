@@ -43,7 +43,7 @@ def regenerate_readings(nids: Sequence):
         if not is_supported_notetype(note):
             continue
 
-        for src_field_name, dst_field_name in zip(config['srcFields'], config['dstFields']):
+        for src_field_name, dst_field_name in iter_fields():
             try:
                 if (src_text := mw.col.media.strip(note[src_field_name]).strip()) and not note[dst_field_name]:
                     note[dst_field_name] = mecab.reading(src_text)

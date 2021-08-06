@@ -33,10 +33,10 @@ def get_notetype(note: Note) -> dict:
 def is_supported_notetype(note: Note) -> bool:
     # Check if this is a supported note type.
 
-    if not config["noteTypes"]:
+    if not config["note_types"]:
         # supported note types weren't specified by the user.
         # treat all note types as supported
         return True
 
     this_notetype = get_notetype(note)['name']
-    return any(notetype.lower() in this_notetype.lower() for notetype in config["noteTypes"])
+    return any(notetype.lower() in this_notetype.lower() for notetype in config["note_types"])
