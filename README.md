@@ -21,6 +21,9 @@ Anki will automatically generate furigana for you and place it in
 Field names can be configured in settings.
 * **Furigana on flush.**
 Automatic furigana generation when a new note gets created with Yomichan.
+* **Furigana from selection.**
+You can convert any selected text to furigana by clicking `Furigana for selection`
+in the context menu while using the note editor.
 * **Note type**.
 A new built-in note type designed for studying Japanese sentences.
 You can find it by going to `Tools` > `Manage Note Types` > `Add` > `Japanese sentences`.
