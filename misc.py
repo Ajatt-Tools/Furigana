@@ -1,5 +1,6 @@
-import os
 import functools
+import os
+
 import aqt
 
 SUPPORT_DIR = os.path.join(os.path.dirname(__file__), "support")

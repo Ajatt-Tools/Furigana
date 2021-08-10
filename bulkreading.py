@@ -26,7 +26,7 @@ from aqt.qt import *
 
 from .misc import *
 from .notetypes import is_supported_notetype
-from .reading import reading
+from .reading import fill_destination
 
 ACTION_NAME = "Bulk-add furigana"
 
@@ -34,23 +34,13 @@ ACTION_NAME = "Bulk-add furigana"
 # Bulk updates
 ##########################################################################
 
-def regenerate_readings(nids: Sequence):
+def bulk_add_furigana(nids: Sequence):
     mw.checkpoint(ACTION_NAME)
     mw.progress.start()
 
-    for nid in nids:
-        note = mw.col.getNote(nid)
-        if not is_supported_notetype(note):
-            continue
-
-        for src_field_name, dst_field_name in iter_fields():
-            try:
-                if (src_text := mw.col.media.strip(note[src_field_name]).strip()) and not note[dst_field_name]:
-                    note[dst_field_name] = reading(src_text)
-            except KeyError:
-                continue
-
-        note.flush()
+    for note in (note for nid in nids if is_supported_notetype(note := mw.col.getNote(nid))):
+        if any(fill_destination(note, src_field, dst_field) for src_field, dst_field in iter_fields()):
+            note.flush()
 
     mw.progress.finish()
     mw.reset()
@@ -58,7 +48,7 @@ def regenerate_readings(nids: Sequence):
 
 def setup_menu(browser: Browser):
     action = QAction(ACTION_NAME, browser)
-    qconnect(action.triggered, lambda: regenerate_readings(browser.selectedNotes()))
+    qconnect(action.triggered, lambda: bulk_add_furigana(browser.selectedNotes()))
     browser.form.menuEdit.addAction(action)
 
 

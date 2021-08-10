@@ -23,6 +23,7 @@ from typing import List
 
 from anki import hooks
 from anki.notes import Note
+from anki.utils import htmlToTextLine
 from aqt import mw
 
 from .mecab_controller import MecabController
@@ -41,58 +42,63 @@ def find_dest_field_name(src_field_name: str) -> str:
         return src_field_name + config['furigana_suffix']
 
 
+def can_fill_destination(note: Note, src_field: str, dst_field: str) -> bool:
+    # Field names are empty or None
+    if not src_field or not dst_field:
+        return False
+
+    # The note doesn't have fields with these names
+    if src_field not in note or dst_field not in note:
+        return False
+
+    # Field is empty
+    if len(htmlToTextLine(note[dst_field])) == 0:
+        return True
+
+    return False
+
+
+def fill_destination(note: Note, src_field: str, dst_field: str) -> bool:
+    if not can_fill_destination(note, src_field, dst_field):
+        return False
+
+    # grab source text and update note
+    if src_text := mw.col.media.strip(note[src_field]).strip():
+        note[dst_field] = reading(src_text)
+        return True
+
+    return False
+
+
 def on_focus_lost(changed: bool, note: Note, field_idx: int) -> bool:
-    # japanese model?
+    # This notetype name is not included in the config file
     if not is_supported_notetype(note):
         return changed
 
-    # have src and dst fields?
-    src_field_name = note.keys()[field_idx]
-    dest_field_name = find_dest_field_name(src_field_name)
+    src_field = note.keys()[field_idx]
+    dst_field = find_dest_field_name(src_field)
 
-    if not src_field_name or not dest_field_name:
-        return changed
-
-    # dst field exists?
-    if dest_field_name not in note:
-        return changed
-
-    # dst field already filled?
-    if note[dest_field_name]:
-        return changed
-
-    # grab source text
-    if src_text := mw.col.media.strip(note[src_field_name]).strip():
-        note[dest_field_name] = reading(src_text)
-        return True
-
-    return changed
+    return True if fill_destination(note, src_field, dst_field) else changed
 
 
 # Note will flush hook
 ##########################################################################
 
-def on_note_will_flush(note: Note) -> Note:
+def on_note_will_flush(note: Note) -> None:
     if not config.get('generate_on_flush'):
-        return note
+        return
 
     if mw.app.activeWindow():
         # only accept calls when add cards dialog or anki browser are not open.
         # otherwise this function conflicts with onFocusLost which is called on 'editFocusLost'
-        return note
+        return
 
     # japanese model?
     if not is_supported_notetype(note):
-        return note
+        return
 
-    for src_field_name, dst_field_name in iter_fields():
-        try:
-            if (src_text := mw.col.media.strip(note[src_field_name]).strip()) and not note[dst_field_name]:
-                note[dst_field_name] = reading(src_text)
-        except KeyError:
-            continue
-
-    return note
+    for src_field, dst_field in iter_fields():
+        fill_destination(note, src_field, dst_field)
 
 
 # Reading
