@@ -1,6 +1,6 @@
 # Japanese support
 
-This purpose of this add-on is to automatically generate and bulk-generate furigana readings.
+The purpose of this add-on is to automatically generate and bulk-generate furigana readings.
 To do its job, the add-on relies on
 [mecab_controller](https://github.com/Ajatt-Tools/mecab_controller).
 Initially this add-on was forked from
