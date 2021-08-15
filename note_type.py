@@ -40,7 +40,7 @@ FIELDS = [
     'Notes',
     'MakeProductionCard'
 ]
-TEMPL_DIR = os.path.join(os.path.dirname(__file__), "note_type")
+TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "note_type")
 
 
 def add_tsc_model(col: Collection):
@@ -51,24 +51,24 @@ def add_tsc_model(col: Collection):
 
     # css
 
-    with open(os.path.join(TEMPL_DIR, 'japanese_sentences.css')) as f:
+    with open(os.path.join(TEMPLATE_DIR, 'japanese_sentences.css')) as f:
         note_type['css'] = f.read()
 
     # recognition card
 
     rec_tmpl = col.models.new_template("Recognition")
-    with open(os.path.join(TEMPL_DIR, 'recognition_front.html')) as f:
+    with open(os.path.join(TEMPLATE_DIR, 'recognition_front.html')) as f:
         rec_tmpl['qfmt'] += f.read()
-    with open(os.path.join(TEMPL_DIR, 'recognition_back.html')) as f:
+    with open(os.path.join(TEMPLATE_DIR, 'recognition_back.html')) as f:
         rec_tmpl['afmt'] += f.read()
     col.models.addTemplate(note_type, rec_tmpl)
 
     # production card
 
     prod_tmpl = col.models.new_template("Production")
-    with open(os.path.join(TEMPL_DIR, 'production_front.html')) as f:
+    with open(os.path.join(TEMPLATE_DIR, 'production_front.html')) as f:
         prod_tmpl['qfmt'] += f.read()
-    with open(os.path.join(TEMPL_DIR, 'production_back.html')) as f:
+    with open(os.path.join(TEMPLATE_DIR, 'production_back.html')) as f:
         prod_tmpl['afmt'] += f.read()
     col.models.addTemplate(note_type, prod_tmpl)
 

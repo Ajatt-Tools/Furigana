@@ -22,13 +22,11 @@ import re
 from typing import List
 
 from anki import hooks
-from anki.notes import Note
 from anki.utils import htmlToTextLine
 from aqt import mw
 
+from .helpers import *
 from .mecab_controller import MecabController
-from .misc import *
-from .notetypes import is_supported_notetype
 
 
 # Focus lost hook

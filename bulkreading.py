@@ -24,8 +24,7 @@ from aqt import mw
 from aqt.browser import Browser
 from aqt.qt import *
 
-from .misc import *
-from .notetypes import is_supported_notetype
+from .helpers import *
 from .reading import fill_destination
 
 ACTION_NAME = "Bulk-add furigana"
