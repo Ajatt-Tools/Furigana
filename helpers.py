@@ -1,3 +1,4 @@
+import re
 from typing import Iterator, Tuple
 
 import aqt
@@ -6,6 +7,11 @@ from anki.notes import Note
 ANKI21_VERSION = int(aqt.appVersion.split('.')[-1])
 NUMBERS = "一二三四五六七八九十０１２３４５６７８９"
 config = aqt.mw.addonManager.getConfig(__name__)
+RE_FLAGS = re.MULTILINE | re.IGNORECASE
+
+
+def clean_furigana(expr: str) -> str:
+    return re.sub(r'([^ ]+)\[[^ ]+]', r'\g<1>', expr, flags=RE_FLAGS).replace(' ', '')
 
 
 def iter_fields() -> Iterator[Tuple[str, str]]:
