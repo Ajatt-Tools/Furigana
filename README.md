@@ -14,6 +14,8 @@ The add-on comes with
 note type optimized for usage with
 [targeted sentence cards](https://tatsumoto-ren.github.io/blog/discussing-various-card-templates.html#targeted-sentence-cards-or-mpvacious-cards).
 
+![demo](img/furigana_demo.webp)
+
 ## Features
 
 * **Furigana.**
