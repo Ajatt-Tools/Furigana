@@ -11,7 +11,7 @@ from .reading import reading
 @dataclass(frozen=True)
 class BtnCfg:
     id: str
-    on_press: Callable
+    on_press: Callable[[str], str]
     tip: str
 
     @property

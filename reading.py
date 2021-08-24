@@ -18,7 +18,6 @@
 #
 # Any modifications to this file must keep this entire header intact.
 
-import re
 from typing import List
 
 from anki import hooks
