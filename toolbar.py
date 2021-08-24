@@ -21,7 +21,7 @@ def append_editor_button(buttons: List[str], editor: Editor) -> None:
         func=lambda _editor: replace_field_content(_editor),
         tip=f"play sound ({shortcut})",
         keys=shortcut,
-        label="振"
+        label=config.get('toolbar_button_text')
     )
     buttons.append(b)
 

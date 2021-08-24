@@ -19,5 +19,6 @@
   "generate_on_flush": true,
   "skip_words": "人,一,二",
   "enable_toolbar_button": true,
-  "toolbar_button_shortcut": "alt+o"
+  "toolbar_button_shortcut": "alt+o",
+  "toolbar_button_text": "振"
 }
