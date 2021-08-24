@@ -27,12 +27,13 @@ Automatically add readings to cards created by AnkiConnect with
 [Yomichan](https://foosoft.net/projects/yomichan/).
 * `toolbar`.
 Controls additional buttons on the Anki Editor toolbar.
-    * `furigana_button_enable`.
-    Show a button on the Browser toolbar.
-    When pressed, it will replace the content of a selected field with furigana.
-    * `furigana_button_shortcut`.
-    Specify a keyboard shortcut for the toolbar button.
-    * `furigana_button_text`.
+"Furigana" button lets you generate furigana in the selected field.
+"Clean" button removes furigana in the selected field.
+    * `enable`.
+    Control whether a button is shown.
+    * `shortcut`.
+    Specify a keyboard shortcut for the button.
+    * `text`.
     Customize the button's label.
 
 ****

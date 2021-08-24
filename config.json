@@ -19,8 +19,15 @@
   "generate_on_flush": true,
   "skip_words": "人,一,二",
   "toolbar": {
-    "furigana_button_enable": true,
-    "furigana_button_shortcut": "Alt+o",
-    "furigana_button_text": "振"
+    "furigana_button": {
+      "enable": true,
+      "shortcut": "Alt+o",
+      "text": "振"
+    },
+    "clean_furigana_button": {
+      "enable": true,
+      "shortcut": "Alt+u",
+      "text": "削"
+    }
   }
 }
