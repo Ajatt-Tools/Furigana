@@ -4,16 +4,20 @@
     "ajt",
     "subs2srs"
   ],
-  "src_fields": [
-    "SentKanji",
-    "VocabKanji"
-  ],
-  "dst_fields": [
-    "SentFurigana",
-    "VocabFurigana"
+  "fields": [
+    {
+      "source":  "SentKanji",
+      "destination": "SentFurigana"
+    },
+    {
+      "source": "VocabKanji",
+      "destination": "VocabFurigana"
+    }
   ],
   "furigana_suffix": " (furigana)",
   "skip_numbers": true,
   "generate_on_flush": true,
-  "skip_words": "人,一,二"
+  "skip_words": "人,一,二",
+  "enable_toolbar_button": true,
+  "toolbar_button_shortcut": "alt+o"
 }

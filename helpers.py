@@ -9,7 +9,8 @@ config = aqt.mw.addonManager.getConfig(__name__)
 
 
 def iter_fields() -> Iterator[Tuple[str, str]]:
-    return zip(config['source_fields'], config['destination_fields'])
+    for source, destination in config['fields']:
+        yield source, destination
 
 
 def get_notetype(note: Note) -> dict:

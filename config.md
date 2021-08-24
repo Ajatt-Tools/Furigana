@@ -5,14 +5,13 @@
 ****
 
 * `note_types`.
-Constrain the add-on's operation to certain note types.
+Tell the add-on what note types you use for Japanese.
 By default, the add-on considers a note type Japanese
-if it finds the text "japanese" in the note type name.
+if it finds the text "japanese" in the note type's name.
 Case is ignored.
-* `src_fields`.
-Fields to generate the reading for.
-* `dst_fields`.
-Fields where the reading should be placed.
+* `fields`.
+Pairs of fields to generate the reading for
+and fields where the readings should be placed.
 * `furigana_suffix`.
 If a field called "abc" exists, and another field called "abc
 (furigana)" exists, they will be used as source and destination fields.
