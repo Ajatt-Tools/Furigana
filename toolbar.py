@@ -19,7 +19,7 @@ def append_editor_button(buttons: List[str], editor: Editor) -> None:
         icon=None,
         cmd="replace_with_furigana",
         func=lambda _editor: replace_field_content(_editor),
-        tip=f"play sound ({shortcut})",
+        tip=f"Generate furigana for the field ({shortcut})",
         keys=shortcut,
         label=config.get('toolbar_button_text')
     )

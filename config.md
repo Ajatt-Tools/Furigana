@@ -25,6 +25,13 @@ A comma-separated list of words that should be skipped when adding furigana.
 * `generate_on_flush`.
 Automatically add readings to cards created by AnkiConnect with
 [Yomichan](https://foosoft.net/projects/yomichan/).
+* `enable_toolbar_button`.
+Show a button on the Browser toolbar.
+When pressed, it will replace the content of a selected field with furigana.
+* `toolbar_button_shortcut`.
+Specify a keyboard shortcut for the toolbar button.
+* `toolbar_button_text`.
+Customize the button's label.
 
 ****
 
