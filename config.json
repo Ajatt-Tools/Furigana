@@ -6,7 +6,7 @@
   ],
   "fields": [
     {
-      "source":  "SentKanji",
+      "source": "SentKanji",
       "destination": "SentFurigana"
     },
     {
@@ -18,7 +18,9 @@
   "skip_numbers": true,
   "generate_on_flush": true,
   "skip_words": "人,一,二",
-  "enable_toolbar_button": true,
-  "toolbar_button_shortcut": "alt+o",
-  "toolbar_button_text": "振"
+  "toolbar": {
+    "furigana_button_enable": true,
+    "furigana_button_shortcut": "Alt+o",
+    "furigana_button_text": "振"
+  }
 }
