@@ -24,6 +24,8 @@ Automatic furigana generation when a new note gets created with Yomichan.
 * **Furigana from selection.**
 You can convert any selected text to furigana by clicking `Furigana for selection`
 in the context menu while using the note editor.
+* **Toolbar button.**
+You can replace the content of any selected field with furigana by pressing `振` on the toolbar.
 * **Note type**.
 A new built-in note type designed for studying Japanese sentences.
 You can find it by going to `Tools` > `Manage Note Types` > `Add` > `Japanese sentences`.
