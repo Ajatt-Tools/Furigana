@@ -12,6 +12,9 @@ Case is ignored.
 * `fields`.
 Pairs of fields to generate the reading for
 and fields where the readings should be placed.
+Default field names match the
+[TSC](https://ankiweb.net/shared/info/1557722832)
+note type.
 * `furigana_suffix`.
 If a field called "abc" exists, and another field called "abc
 (furigana)" exists, they will be used as source and destination fields.
