@@ -44,9 +44,9 @@
     function removePitchBrackets() {
         const tags = document.getElementById("pitchnum");
         if (tags !== null) {
-            tags.innerHTML = tags.innerHTML.replace(/(\[(?=\d)|(?<=\d)\])/g, "");
+            tags.innerHTML = tags.innerHTML.replace(/[\[\]]/g, "");
         }
     }
-    document.addEventListener('DOMContentLoaded', markPitch(), false);
-    document.addEventListener('DOMContentLoaded', removePitchBrackets(), false);
+    markPitch()
+    removePitchBrackets()
 </script>
