@@ -28,6 +28,9 @@ Automatic furigana generation when a new note gets created with Yomichan.
 * **Furigana from selection.**
 You can convert any selected text to furigana by clicking `Furigana for selection`
 in the context menu while using the note editor.
+* **Bulk-add**.
+To add furigana to multiple cards in bulk,
+open the Anki Browser and press "Edit" > "Bulk-add furigana".
 * **Toolbar button.**
 You can replace the content of any selected field with furigana by pressing `振` on the toolbar.
 * **Note type**.
