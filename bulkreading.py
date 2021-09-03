@@ -38,7 +38,7 @@ def bulk_add_furigana(nids: Sequence):
     mw.progress.start()
 
     for note in (note for nid in nids if is_supported_notetype(note := mw.col.getNote(nid))):
-        if any(fill_destination(note, src_field, dst_field) for src_field, dst_field in iter_fields()):
+        if any([fill_destination(note, src_field, dst_field) for src_field, dst_field in iter_fields()]):
             note.flush()
 
     mw.progress.finish()
