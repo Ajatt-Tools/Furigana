@@ -113,7 +113,7 @@ def get_skip_numbers() -> List[str]:
 
 
 def reading(expr: str) -> str:
-    return mecab.reading(expr, get_skip_words() + get_skip_numbers())
+    return mecab.reading(expr, skip_words=get_skip_words() + get_skip_numbers())
 
 
 # Init
