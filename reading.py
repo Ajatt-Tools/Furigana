@@ -85,7 +85,7 @@ def on_note_will_flush(note: Note) -> None:
     if not config.get('generate_on_flush'):
         return
 
-    if mw.app.activeWindow():
+    if mw.app.activeWindow() or note.id:
         # only accept calls when add cards dialog or anki browser are not open.
         # otherwise this function conflicts with onFocusLost which is called on 'editFocusLost'
         return
