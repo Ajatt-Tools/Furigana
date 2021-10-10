@@ -86,8 +86,7 @@ def on_note_will_flush(note: Note) -> None:
         return
 
     if mw.app.activeWindow() or note.id:
-        # only accept calls when add cards dialog or anki browser are not open.
-        # otherwise this function conflicts with onFocusLost which is called on 'editFocusLost'
+        # ensures the callback only executes when a new note is being created.
         return
 
     # japanese model?
