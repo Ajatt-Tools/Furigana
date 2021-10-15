@@ -79,16 +79,17 @@ def on_focus_lost(changed: bool, note: Note, field_idx: int) -> bool:
 # Note add hook
 ##########################################################################
 
+def should_add_furigana(note: Note) -> bool:
+    return all((
+        config.get('generate_on_note_add') is True,
+        mw.app.activeWindow() is None,
+        note.id == 0,
+        is_supported_notetype(note),
+    ))
+
+
 def on_add_note(_col, note: Note, _did) -> None:
-    if not config.get('generate_on_note_add'):
-        return
-
-    if mw.app.activeWindow() or note.id:
-        # ensures the callback only executes when a new note is being created.
-        return
-
-    # japanese model?
-    if not is_supported_notetype(note):
+    if not should_add_furigana(note):
         return
 
     for src_field, dst_field in iter_fields():
