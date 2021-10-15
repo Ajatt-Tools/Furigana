@@ -3,11 +3,15 @@ from typing import Iterator, Tuple
 
 import aqt
 from anki.notes import Note
+from aqt import mw
 
 ANKI21_VERSION = int(aqt.appVersion.split('.')[-1])
 NUMBERS = "一二三四五六七八九十０１２３４５６７８９"
-config = aqt.mw.addonManager.getConfig(__name__)
 RE_FLAGS = re.MULTILINE | re.IGNORECASE
+
+
+def get_config():
+    return mw.addonManager.getConfig(__name__)
 
 
 def clean_furigana(expr: str) -> str:
@@ -36,3 +40,6 @@ def is_supported_notetype(note: Note) -> bool:
 
     this_notetype = get_notetype(note)['name']
     return any(notetype.lower() in this_notetype.lower() for notetype in config["note_types"])
+
+
+config = get_config()

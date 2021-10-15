@@ -22,7 +22,6 @@ from typing import List
 
 from anki import hooks
 from anki.utils import htmlToTextLine
-from aqt import mw
 
 from .helpers import *
 from .mecab_controller import MecabController
