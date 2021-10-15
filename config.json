@@ -29,5 +29,10 @@
       "shortcut": "Alt+u",
       "text": "削"
     }
+  },
+  "context_menu": {
+    "generate_furigana": true,
+    "to_katakana": true,
+    "to_hiragana": true
   }
 }

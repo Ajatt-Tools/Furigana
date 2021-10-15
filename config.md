@@ -35,6 +35,15 @@ Controls additional buttons on the Anki Editor toolbar.
     Specify a keyboard shortcut for the button.
     * `text`.
     Customize the button's label.
+* `context_menu`.
+Toggles context menu actions.
+You can enable or disable the following actions:
+    * `generate_furigana`.
+    Paste furigana for selection.
+    * `to_katakana`.
+    Convert selection to katakana.
+    * `to_hiragana`.
+    Convert selection to hiragana.
 
 ****
 
