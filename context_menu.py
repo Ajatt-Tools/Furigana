@@ -1,5 +1,8 @@
+# Copyright: Ren Tatsumoto <tatsu at autistici.org>
+# License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
+
 import abc
-from typing import Dict, Type
+from typing import Type, List
 
 from aqt import gui_hooks
 from aqt.editor import EditorWebView, Editor
@@ -11,9 +14,24 @@ from .mecab_controller import to_katakana, to_hiragana
 from .reading import reading
 
 
-class ContextMenuAction(metaclass=abc.ABCMeta):
+class ContextMenuAction(abc.ABC):
+    subclasses: List[Type['ContextMenuAction']] = []
+
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        cls.subclasses.append(cls)
+
     def __init__(self, editor: Editor):
         self.editor = editor
+
+    @classmethod
+    def enabled(cls) -> bool:
+        return config['context_menu'][cls.key]
+
+    @property
+    @abc.abstractmethod
+    def key(self) -> str:
+        pass
 
     @property
     @abc.abstractmethod
@@ -32,32 +50,28 @@ class ContextMenuAction(metaclass=abc.ABCMeta):
 
 
 class GenerateFurigana(ContextMenuAction):
+    key = "generate_furigana"
     label = "Furigana for selection"
     action = staticmethod(reading)
 
 
 class ToKatakana(ContextMenuAction):
+    key = "to_katakana"
     label = "Convert to katakana"
     action = staticmethod(to_katakana)
 
 
 class ToHiragana(ContextMenuAction):
+    key = "to_hiragana"
     label = "Convert to hiragana"
     action = staticmethod(to_hiragana)
 
 
-MENUS: Dict[str, Type[ContextMenuAction]] = {
-    "generate_furigana": GenerateFurigana,
-    "to_katakana": ToKatakana,
-    "to_hiragana": ToHiragana,
-}
-
-
 def add_context_menu_items(webview: EditorWebView, menu: QMenu) -> None:
-    for key, enabled in config['context_menu'].items():
-        if enabled:
-            action = menu.addAction(MENUS[key].label)
-            qconnect(action.triggered, MENUS[key](webview.editor))
+    for Action in ContextMenuAction.subclasses:
+        if Action.enabled():
+            action = menu.addAction(Action.label)
+            qconnect(action.triggered, Action(webview.editor))
 
 
 def init():
