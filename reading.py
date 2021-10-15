@@ -18,7 +18,8 @@
 
 from typing import List
 
-from anki import hooks
+import anki.collection
+from anki.hooks import wrap
 from anki.utils import htmlToTextLine
 
 from .helpers import *
@@ -75,11 +76,11 @@ def on_focus_lost(changed: bool, note: Note, field_idx: int) -> bool:
     return True if fill_destination(note, src_field, dst_field) else changed
 
 
-# Note will flush hook
+# Note add hook
 ##########################################################################
 
-def on_note_will_flush(note: Note) -> None:
-    if not config.get('generate_on_flush'):
+def on_add_note(_col, note: Note, _did) -> None:
+    if not config.get('generate_on_note_add'):
         return
 
     if mw.app.activeWindow() or note.id:
@@ -126,4 +127,4 @@ def init():
         gui_hooks.editor_did_unfocus_field.append(on_focus_lost)
 
     # Generate when AnkiConnect adds a new note
-    hooks.note_will_flush.append(on_note_will_flush)
+    anki.collection.Collection.add_note = wrap(anki.collection.Collection.add_note, on_add_note, 'before')

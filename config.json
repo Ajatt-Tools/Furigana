@@ -16,7 +16,7 @@
   ],
   "furigana_suffix": " (furigana)",
   "skip_numbers": true,
-  "generate_on_flush": true,
+  "generate_on_note_add": true,
   "skip_words": "人,一,二",
   "toolbar": {
     "furigana_button": {

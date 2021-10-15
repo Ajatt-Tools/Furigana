@@ -22,7 +22,7 @@ If a field called "abc" exists, and another field called "abc
 Whether to add furigana to numbers or not.
 * `skip_words`.
 A comma-separated list of words that should be skipped when adding furigana.
-* `generate_on_flush`.
+* `generate_on_note_add`.
 Automatically add readings to cards created by AnkiConnect with
 [Yomichan](https://foosoft.net/projects/yomichan/).
 * `toolbar`.
