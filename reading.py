@@ -99,8 +99,6 @@ def on_add_note(_col, note: Note, _did) -> None:
 # Reading
 ##########################################################################
 
-mecab = MecabController()
-
 
 def get_skip_words() -> List[str]:
     return re.split(r'[, ]+', config.get('skip_words', ''), flags=re.IGNORECASE)
@@ -111,7 +109,10 @@ def get_skip_numbers() -> List[str]:
 
 
 def reading(expr: str) -> str:
-    return mecab.reading(expr, skip_words=get_skip_words() + get_skip_numbers())
+    return mecab.reading(expr)
+
+
+mecab = MecabController(skip_words=get_skip_words() + get_skip_numbers())
 
 
 # Init
