@@ -24,6 +24,7 @@ from anki.utils import htmlToTextLine
 
 from .helpers import *
 from .mecab_controller import MecabController
+from .tokens import tokenize, ParseableToken
 
 
 # Focus lost hook
@@ -108,8 +109,15 @@ def get_skip_numbers() -> List[str]:
     return list(NUMBERS) if config.get('skip_numbers') is True else []
 
 
-def reading(expr: str) -> str:
-    return mecab.reading(expr)
+def reading(src_text: str) -> str:
+    substrings = []
+    for token in tokenize(src_text):
+        if isinstance(token, ParseableToken):
+            substrings.append(mecab.reading(token))
+        else:
+            substrings.append(token)
+
+    return ''.join(substrings).strip()
 
 
 mecab = MecabController(skip_words=get_skip_words() + get_skip_numbers())
