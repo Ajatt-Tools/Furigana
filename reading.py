@@ -23,7 +23,7 @@ from anki.hooks import wrap
 from anki.utils import htmlToTextLine
 
 from .helpers import *
-from .mecab_controller import MecabController
+from .mecab_controller import MecabController, to_hiragana, format_output
 from .tokens import tokenize, ParseableToken
 
 
@@ -110,17 +110,23 @@ def get_skip_numbers() -> List[str]:
 
 
 def reading(src_text: str) -> str:
+    skip_words = get_skip_words() + get_skip_numbers()
     substrings = []
     for token in tokenize(src_text):
         if isinstance(token, ParseableToken):
-            substrings.append(mecab.reading(token))
+            for out in mecab.translate(token):
+                substrings.append(
+                    format_output(out.word, out.hiragana_reading)
+                    if out.katakana_reading and out.word not in skip_words and out.headword not in skip_words
+                    else out.word
+                )
         else:
             substrings.append(token)
 
     return ''.join(substrings).strip()
 
 
-mecab = MecabController(skip_words=get_skip_words() + get_skip_numbers())
+mecab = MecabController(verbose=True)
 
 
 # Init
