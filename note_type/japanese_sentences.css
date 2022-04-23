@@ -380,6 +380,22 @@ ol {
     color: white;
 }
 
+@media screen and (min-width: 820px) {
+    .nightMode.card {
+        background-color: #2f2f31;
+        display: flex;
+        justify-content: center;
+    }
+    .nightMode .wrap {
+        width: 800px;
+        padding: 0 5px 0;
+        background-color: #3a3a3a;
+        border-left: 1px solid #0f0f0f;
+        border-right: 1px solid #0f0f0f;
+        min-height: 100vh;
+    }
+}
+
 /* Don't select furigana */
 
 .jpsentence ruby rt {
