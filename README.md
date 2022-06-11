@@ -33,6 +33,7 @@ To add furigana to multiple cards in bulk,
 open the Anki Browser and press "Edit" > "Bulk-add furigana".
 * **Toolbar button.**
 You can replace the content of any selected field with furigana by pressing `振` on the toolbar.
+You can do the same with furigana without kanji by pressing `平` on the toolbar. 
 * **Note type**.
 A new built-in note type designed for studying Japanese sentences.
 You can find it by going to `Tools` > `Manage Note Types` > `Add` > `Japanese sentences`.

@@ -60,7 +60,10 @@ def fill_destination(note: Note, src_field: str, dst_field: str) -> bool:
 
     # grab source text and update note
     if src_text := mw.col.media.strip(note[src_field]).strip():
-        note[dst_field] = reading(src_text)
+        if config.get('skip_kanji'): 
+            note[dst_field] = reading_no_kanji(src_text)
+        else:
+            note[dst_field] = reading(src_text)
         return True
 
     return False
@@ -125,6 +128,21 @@ def reading(src_text: str) -> str:
 
     return ''.join(substrings).strip()
 
+def reading_no_kanji(src_text: str) -> str:
+    skip_words = get_skip_words() + get_skip_numbers()
+    substrings = []
+    for token in tokenize(src_text):
+        if isinstance(token, ParseableToken):
+            for out in mecab.translate(token):
+                substrings.append(
+                    out.hiragana_reading
+                    if out.katakana_reading and out.word not in skip_words and out.headword not in skip_words
+                    else out.word
+                )
+        else:
+            substrings.append(token)
+
+    return ''.join(substrings).strip()
 
 mecab = MecabController(verbose=True)
 

@@ -18,6 +18,7 @@
   "skip_numbers": true,
   "generate_on_note_add": true,
   "skip_words": "人,一,二",
+  "skip_kanji": false,
   "toolbar": {
     "furigana_button": {
       "enable": true,
@@ -28,10 +29,16 @@
       "enable": true,
       "shortcut": "Alt+u",
       "text": "削"
+    },
+    "furigana_no_kanji_button": {
+      "enable": true,
+      "shortcut": "Alt+i",
+      "text": "平"
     }
   },
   "context_menu": {
     "generate_furigana": true,
+    "generate_furigana_no_kanji": true,
     "to_katakana": true,
     "to_hiragana": true
   }

@@ -8,7 +8,7 @@ from aqt import gui_hooks
 from aqt.editor import Editor
 
 from .helpers import *
-from .reading import reading
+from .reading import reading, reading_no_kanji
 
 
 @dataclass(frozen=True)
@@ -66,6 +66,11 @@ def init():
             on_press=clean_furigana,
             tip='Clean furigana in the field',
         ),
+        BtnCfg(
+            id='furigana_no_kanji_button',
+            on_press=lambda expr: reading_no_kanji(clean_furigana(expr)),
+            tip='Generate furigana without kanji in the field'
+        )
     )
     for cfg in buttons:
         if cfg.enabled:
