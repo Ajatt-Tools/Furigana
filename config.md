@@ -18,6 +18,8 @@ note type.
 * `furigana_suffix`.
 If a field called "abc" exists, and another field called "abc
 (furigana)" exists, they will be used as source and destination fields.
+* `skip_kanji`.
+Whether to include the kanji and brackets when filling destination fields with readings. 
 * `skip_numbers`.
 Whether to add furigana to numbers or not.
 * `skip_words`.
@@ -40,6 +42,8 @@ Toggles context menu actions.
 You can enable or disable the following actions:
     * `generate_furigana`.
     Paste furigana for selection.
+    * `generate_furigana_no_kanji`
+    Paste furigana without kanji for selection.
     * `to_katakana`.
     Convert selection to katakana.
     * `to_hiragana`.

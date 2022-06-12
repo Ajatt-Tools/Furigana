@@ -11,7 +11,7 @@ from aqt.utils import tooltip
 
 from .helpers import config
 from .mecab_controller import to_katakana, to_hiragana
-from .reading import reading
+from .reading import reading, reading_no_kanji
 
 
 class ContextMenuAction(abc.ABC):
@@ -54,6 +54,10 @@ class GenerateFurigana(ContextMenuAction):
     label = "Furigana for selection"
     action = staticmethod(reading)
 
+class GenerateFuriganaNoKanji(ContextMenuAction):
+    key = "generate_furigana_no_kanji"
+    label = "Furigana without kanji for selection"
+    action = staticmethod(reading_no_kanji)
 
 class ToKatakana(ContextMenuAction):
     key = "to_katakana"
