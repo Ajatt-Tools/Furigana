@@ -11,23 +11,33 @@ from .helpers import *
 from .reading import reading, reading_no_kanji
 
 
+def get_default_config():
+    manager = aqt.mw.addonManager
+    addon = manager.addonFromModule(__name__)
+    return manager.addonConfigDefaults(addon)
+
+
 @dataclass(frozen=True)
 class BtnCfg:
     id: str
     on_press: Callable[[str], str]
     tip: str
+    __default = get_default_config()
+
+    def __get(self, button_id: str):
+        return config['toolbar'].get(button_id, self.__default['toolbar'][button_id])
 
     @property
     def enabled(self) -> bool:
-        return config['toolbar'][self.id]['enable']
+        return self.__get(self.id)['enable']
 
     @property
     def shortcut(self) -> str:
-        return config['toolbar'][self.id]['shortcut']
+        return self.__get(self.id)['shortcut']
 
     @property
     def text(self) -> str:
-        return config['toolbar'][self.id]['text']
+        return self.__get(self.id)['text']
 
 
 def on_button_press(func: Callable):
