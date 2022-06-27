@@ -7,14 +7,8 @@ from typing import List, Callable
 from aqt import gui_hooks
 from aqt.editor import Editor
 
-from .helpers import *
+from .helpers import config, default, clean_furigana
 from .reading import reading, reading_no_kanji
-
-
-def get_default_config():
-    manager = aqt.mw.addonManager
-    addon = manager.addonFromModule(__name__)
-    return manager.addonConfigDefaults(addon)
 
 
 @dataclass(frozen=True)
@@ -22,10 +16,10 @@ class BtnCfg:
     id: str
     on_press: Callable[[str], str]
     tip: str
-    __default = get_default_config()
 
-    def __get(self, button_id: str):
-        return config['toolbar'].get(button_id, self.__default['toolbar'][button_id])
+    @staticmethod
+    def __get(button_id: str):
+        return config['toolbar'].get(button_id, default['toolbar'][button_id])
 
     @property
     def enabled(self) -> bool:

@@ -17,6 +17,12 @@ def get_config():
     return mw.addonManager.getConfig(__name__)
 
 
+def get_default_config():
+    manager = aqt.mw.addonManager
+    addon = manager.addonFromModule(__name__)
+    return manager.addonConfigDefaults(addon)
+
+
 def clean_furigana(expr: str) -> str:
     return re.sub(r'([^ ]+)\[[^ ]+]', r'\g<1>', expr, flags=RE_FLAGS).replace(' ', '')
 
@@ -46,3 +52,4 @@ def is_supported_notetype(note: Note) -> bool:
 
 
 config = get_config()
+default = get_default_config()

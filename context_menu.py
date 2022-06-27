@@ -9,7 +9,7 @@ from aqt.editor import EditorWebView, Editor
 from aqt.qt import *
 from aqt.utils import tooltip
 
-from .helpers import config
+from .helpers import config, default
 from .mecab_controller import to_katakana, to_hiragana
 from .reading import reading, reading_no_kanji
 
@@ -26,7 +26,7 @@ class ContextMenuAction(abc.ABC):
 
     @classmethod
     def enabled(cls) -> bool:
-        return config['context_menu'][cls.key]
+        return config['context_menu'].get(cls.key, default['context_menu'][cls.key])
 
     @property
     @abc.abstractmethod
@@ -54,10 +54,12 @@ class GenerateFurigana(ContextMenuAction):
     label = "Furigana for selection"
     action = staticmethod(reading)
 
+
 class GenerateFuriganaNoKanji(ContextMenuAction):
     key = "generate_furigana_no_kanji"
     label = "Furigana without kanji for selection"
     action = staticmethod(reading_no_kanji)
+
 
 class ToKatakana(ContextMenuAction):
     key = "to_katakana"
