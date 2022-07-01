@@ -50,12 +50,25 @@
         display: flex;
         justify-content: center;
     }
+    .nightMode.card {
+        background-color: #2f2f31;
+        display: flex;
+        justify-content: center;
+    }
     .wrap {
         width: 800px;
         padding: 0 5px 0;
         background-color: #fffaf0;
         border-left: 1px solid #c9bcbc;
         border-right: 1px solid #c9bcbc;
+        min-height: 100vh;
+    }
+    .nightMode .wrap {
+        width: 800px;
+        padding: 0 5px 0;
+        background-color: #3a3a3a;
+        border-left: 1px solid #202020;
+        border-right: 1px solid #202020;
         min-height: 100vh;
     }
     .wrap .wrap {
@@ -378,6 +391,13 @@ ol {
 
 .nightMode footer > a:after {
     color: white;
+}
+
+.nightMode hr{
+    margin: 2px 0;
+    clear: both;
+    border: 0;
+    border-top: 1px solid #202020;
 }
 
 /* Don't select furigana */
